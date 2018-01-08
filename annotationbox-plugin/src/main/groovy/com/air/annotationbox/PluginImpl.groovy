@@ -1,17 +1,17 @@
-package com.air.transannotation
+package com.air.annotationbox
 
+import com.air.annotationbox.transform.TransformImpl
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryPlugin
-import com.xiaoka.network.transform.TransformImpl
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-public class PluginImpl implements Plugin<Project> {
-
+class PluginImpl implements Plugin<Project> {
     @Override
     void apply(Project project) {
-//        project.plugins.hasPlugin("com.android.application")
+        project.extensions.create(PluginExtension.NAME, PluginExtension)
+
         def isApp = project.plugins.hasPlugin(AppPlugin)
         def isLibrary = project.plugins.hasPlugin(LibraryPlugin)
         def isAndroid = isApp || isLibrary

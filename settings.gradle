@@ -1,1 +1,1 @@
-include ':app', ':transannotation-plugin'
+include ':app', ':annotationbox-plugin'

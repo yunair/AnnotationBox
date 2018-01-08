@@ -1,4 +1,4 @@
-package com.air.transannotation;
+package com.air.annotationbox;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
