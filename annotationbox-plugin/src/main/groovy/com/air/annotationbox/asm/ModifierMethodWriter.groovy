@@ -1,6 +1,6 @@
-package com.air.annotationbox.asm;
+package com.air.annotationbox.asm
 
-
+import com.air.annotationbox.PluginExtension;
 import org.gradle.api.Project;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -17,7 +17,7 @@ final class ModifierMethodWriter extends MethodVisitor {
     ModifierMethodWriter(int api, MethodVisitor mv, String methodName, Project project) {
         super(api, mv)
         this.methodName = methodName
-        configuration = project.converter
+        configuration = project."${PluginExtension.NAME}"
         log = project.logger
         log.error("RuleMap" + configuration.ruleMaps)
     }

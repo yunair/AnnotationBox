@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.air.converter'
+apply plugin: 'com.air.annotationbox'
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
     defaultConfig {
-        applicationId "com.air.transannotation"
+        applicationId "com.air.converter"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
@@ -35,14 +35,11 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 
-converter {
+annotationbox {
     ruleMaps = [
             "com.air.annotationbox.custom.annotations.AGET":"retrofit2.http.GET",
             "com.air.annotationbox.custom.annotations.AHeaders":"retrofit2.http.Headers",
             "com.air.annotationbox.custom.annotations.APath":"retrofit2.http.Path",
             "com.air.annotationbox.custom.annotations.AHTTP":"retrofit2.http.HTTP",
     ]
-}
-repositories {
-    mavenCentral()
 }

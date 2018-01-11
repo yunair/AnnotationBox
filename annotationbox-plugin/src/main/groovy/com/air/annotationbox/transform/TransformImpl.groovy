@@ -45,10 +45,10 @@ class TransformImpl extends Transform {
     private void formatRuleMaps() {
         Map<String, String> formattedRuleMaps = new HashMap<>()
 
-        for (Map.Entry<String, String> item : project.converter.ruleMaps.entrySet()) {
+        for (Map.Entry<String, String> item : project."${PluginExtension.NAME}".ruleMaps.entrySet()) {
             formattedRuleMaps.put(Utils.convertClassNameToVMName(item.getKey()), Utils.convertClassNameToVMName(item.getValue()))
         }
-        project.converter.ruleMaps = formattedRuleMaps
+        project."${PluginExtension.NAME}".ruleMaps = formattedRuleMaps
     }
 
     @Override
