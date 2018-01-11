@@ -1,0 +1,116 @@
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+// must define below two attribute
+group GROUP_ID
+version VERSION_NAME
+
+/*apply plugin: 'maven'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('../repo'))
+            pom.groupId = GROUP_ID
+            pom.artifactId = POM_ARTIFACT_ID
+            pom.version = VERSION_NAME
+            pom.name = POM_ARTIFACT_ID
+        }
+    }
+}*/
+
+task sourcesJar(type: Jar) {
+    group 'Build'
+    description 'An archive of the source code'
+    classifier 'sources'
+//    from sourceSets.main.allSource
+    from sourceSets.main.groovy.srcDirs
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+def siteUrl = 'https://github.com/yunair/AnnotationBox'
+def gitUrl = 'https://github.com/yunair/AnnotationBox.git'
+
+def readPropertyFromLocalProperties(String key) {
+    Properties properties = new Properties()
+    try {
+        properties.load(project.file('local.properties').newDataInputStream())
+    } catch (Exception e) {
+        println("load local properties failed msg:${e.message}")
+    }
+    return properties.getProperty(key)
+}
+
+
+def USER_NAME = readPropertyFromLocalProperties("USER_NAME")
+def API_KEY = readPropertyFromLocalProperties("API_KEY")
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom.project {
+            name POM_ARTIFACT_ID
+            groupId GROUP_ID
+            artifactId POM_ARTIFACT_ID
+            version VERSION_NAME
+            url siteUrl
+
+            // Set your license
+            licenses {
+                license {
+                    name 'BSD 3-Clause'
+                    url 'https://github.com/yunair/AnnotationBox/blob/master/LICENSE'
+                }
+            }
+            scm {
+                connection gitUrl
+                url siteUrl
+            }
+            developers {
+                developer {
+                    id USER_NAME
+                    name 'Air'
+                }
+            }
+        }
+    }
+}
+
+bintray {
+    user = USER_NAME
+    key = API_KEY
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = 'annotationbox-plugin'
+        licenses = ['BSD 3-Clause']
+        issueTrackerUrl = 'https://github.com/yunair/AnnotationBox/issues'
+        vcsUrl = gitUrl
+        publish = true
+        publicDownloadNumbers = true
+        dryRun = false
+        labels = ['gradle-plugin', 'annotation', 'java', 'android']
+        attributes = ['gradle-plugin': 'com.air:annotationbox-plugin']
+        version {
+            name = VERSION_NAME
+            desc = "AnnotationBox ${VERSION_NAME}"
+            released = new Date()
+            vcsTag = VERSION_NAME
+        }
+    }
+}
+
+
+task installAndPublishRepo(dependsOn: ['install', 'bintrayUpload']) {
+    doLast {
+        println "*published to repo: ${project.group}:${project.name}:${project.version}"
+    }
+}
