@@ -4,7 +4,7 @@
 
 This is a annotation converter for android library
 
-Chinese version is [here](https://github.com/yunair/annotationbox/blob/master/README-CN.md)
+中文文档在 [这里](https://github.com/yunair/annotationbox/blob/master/README-CN.md)
 
 # Getting Start
 
